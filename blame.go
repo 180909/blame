@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -97,28 +96,4 @@ func getAllFileName(prefix string, fileNames *[]string) {
 		}
 	}
 	return
-}
-
-// check arg exist or is file or is dir
-// if arg not exist, exit program
-// if arg is dir, return 1
-// if arg is file, return 2
-func checkFileType(fileName string, o io.StringWriter) int {
-	s, err := os.Stat(fileName)
-	if err != nil {
-		if os.IsNotExist(err) {
-			o.WriteString("\nblame: no such file or directory: " + fileName + " \n")
-
-			os.Exit(0)
-		}
-		e := os.Stderr
-		e.WriteString(err.Error())
-		e.Close()
-		os.Exit(1)
-	}
-	if s.IsDir() {
-		return 1
-	} else {
-		return 0
-	}
 }
